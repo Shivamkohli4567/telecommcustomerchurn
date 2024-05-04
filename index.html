@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Telecom Customer Churn Prediction</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            background: linear-gradient(135deg, #FFD6BA, #FFA9A3, #FF92A6);
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #FF92A6;
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            color: #333;
+            font-family: inherit;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #FF92A6;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #FF7F8E;
+        }
+
+        .result {
+            text-align: center;
+            font-size: 1.1em;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .tips {
+            margin-top: 20px;
+        }
+
+        .tips h2 {
+            font-size: 1.1em;
+            color: #FF92A6;
+            margin-bottom: 8px;
+        }
+
+        .tips ul {
+            list-style-type: none;
+            padding: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .tips li {
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Telecom Customer Churn Prediction</h1>
+        <form method="post" action="/predict">
+            <label for="gender">Gender</label>
+            <select name="gender" id="gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+
+            <label for="seniorcitizen">Senior Citizen</label>
+            <select name="seniorcitizen" id="seniorcitizen">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <label for="partner">Partner</label>
+            <select name="partner" id="partner">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <label for="dependents">Dependents</label>
+            <select name="dependents" id="dependents">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <label for="totalcharges">Total Charges</label>
+            <input type="text" name="totalcharges" id="totalcharges" placeholder="Enter total charges">
+
+            <label for="tenure">Tenure (months)</label>
+            <input type="text" name="tenure" id="tenure" placeholder="Enter tenure in months">
+
+            <label for="phoneservice">Phone Service</label>
+            <select name="phoneservice" id="phoneservice">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <label for="multiplelines">Multiple Lines</label>
+            <select name="multiplelines" id="multiplelines">
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+                <option value="No phone service">No phone service</option>
+            </select>
+
+            <label for="contract">Contract</label>
+            <select name="contract" id="contract">
+                <option value="Month-to-Month">Month-to-month</option>
+                <option value="One year">One year</option>
+                <option value="Two year">Two year</option>
+                <option value="No">No</option>
+            </select>
+
+            <input type="submit" value="Predict">
+        </form>
+
+        {% if tips_data %}
+        <div class="tips">
+            <h2>{{ tips_data.keys()|join('') }}</h2>
+            <ul>
+                {% for tip in tips_data.values()|first %}
+                <li>{{ tip }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if result %}
+        <div class="result">{{ result }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>
