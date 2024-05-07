@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 
 # Load the pre-trained model
-model = pickle.load(open('TelcoCustomerChurn.pkl', 'rb'))
+model = pickle.load(open('shubham.pkl', 'rb'))
 
 app = Flask(__name__, template_folder="templates")
 label_encoder = LabelEncoder()
@@ -90,18 +90,12 @@ def predict():
    elif Contract and Contract.lower() == "One year":
        Contract = 2
    elif Contract and Contract.lower() == "Two year":
-       Contract = 3
-   elif Contract and Contract.lower() == "No":
-       Contract = 4
+       Contract = 3    
    else:
        Contract = -1  # Missing value
 
    features = np.array([gender, SeniorCitizen, Partner, Dependents, TotalCharges, tenure, PhoneService, MultipleLines, Contract])
-   features = features.reshape(1, -1)
-
-   # Handle missing values (replace with the mean or median of the training data)
-   feature_means = np.array([0.5, 0.161, 0.666, 0.364, 64.761, 32.371, 0.637, 0.164, 2.23])  # Replace with actual means/medians
-   features = np.where(features == -1, feature_means, features)
+   features = features.reshape(1,-1)
 
    # Scale the features
    ss = StandardScaler()
@@ -109,8 +103,8 @@ def predict():
 
    prediction = model.predict(features)
 
-   if prediction[0] == 1:
-       result = "The Customer Is Likely To Churn."
+   if prediction == 1:
+       result ("The Customer Is Likely To Churn.")
        tips_df = churn_tips_df
        tips_data = churn_tips_data
    else:
