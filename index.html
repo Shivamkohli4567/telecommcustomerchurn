@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Telecom Customer Churn Prediction</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Prediction</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
         body {
             background: linear-gradient(135deg, #FFD6BA, #0a1a8e, #ff9292);
             font-family: 'Roboto', sans-serif;
@@ -15,7 +16,6 @@
             height: 100vh;
             margin: 0;
         }
-
         .container {
             max-width: 600px;
             width: 100%;
@@ -26,25 +26,21 @@
             max-height: 80vh;
             overflow-y: auto;
         }
-
         h1 {
             text-align: center;
             color: #FF92A6;
             margin-bottom: 20px;
         }
-
         form {
             max-width: 500px;
             margin: 0 auto;
         }
-
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
         }
-
-        input[type="text"], select {
+        input[type="text"], input[type="number"], select {
             width: 100%;
             padding: 8px;
             border: 1px solid #ccc;
@@ -55,7 +51,6 @@
             margin-bottom: 15px;
             box-sizing: border-box;
         }
-
         input[type="submit"] {
             background-color: #FF92A6;
             color: #fff;
@@ -67,11 +62,9 @@
             transition: background-color 0.3s ease;
             width: 100%;
         }
-
         input[type="submit"]:hover {
             background-color: #FF7F8E;
         }
-
         .result {
             text-align: center;
             font-size: 1.1em;
@@ -80,24 +73,20 @@
             background-color: #f9f9f9;
             border-radius: 5px;
         }
-
         .tips {
             margin-top: 20px;
         }
-
         .tips h2 {
             font-size: 1.1em;
             color: #FF92A6;
             margin-bottom: 8px;
         }
-
         .tips ul {
             list-style-type: none;
             padding: 0;
             max-height: 200px;
             overflow-y: auto;
         }
-
         .tips li {
             margin-bottom: 5px;
             font-size: 0.9em;
@@ -106,74 +95,67 @@
 </head>
 <body>
     <div class="container">
-        <h1>Telecom Customer Churn Prediction</h1>
-        <form method="post" action="/predict">
+        <h1>Customer Churn Prediction</h1>
+        <form method="post" action="/">
             <label for="gender">Gender</label>
             <select name="gender" id="gender">
+                <option value="">Select Gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
             </select>
-
-            <label for="seniorcitizen">Senior Citizen</label>
-            <select name="seniorcitizen" id="seniorcitizen">
+            <label for="SeniorCitizen">Senior Citizen</label>
+            <select name="SeniorCitizen" id="SeniorCitizen">
+                <option value="">Select</option>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
             </select>
-
-            <label for="partner">Partner</label>
-            <select name="partner" id="partner">
+            <label for="Partner">Partner</label>
+            <select name="Partner" id="Partner">
+                <option value="">Select</option>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
             </select>
-
-            <label for="dependents">Dependents</label>
-            <select name="dependents" id="dependents">
+            <label for="Dependents">Dependents</label>
+            <select name="Dependents" id="Dependents">
+                <option value="">Select</option>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
             </select>
-
-            <label for="totalcharges">Total Charges</label>
-            <input type="text" name="totalcharges" id="totalcharges" placeholder="Enter total charges">
-
-            <label for="tenure">Tenure (months)</label>
-            <input type="text" name="tenure" id="tenure" placeholder="Enter tenure in months">
-
-            <label for="phoneservice">Phone Service</label>
-            <select name="phoneservice" id="phoneservice">
+            <label for="TotalCharges">Total Charges</label>
+            <input type="text" name="TotalCharges" id="TotalCharges" placeholder="Enter total charges">
+            <label for="Tenure">Tenure</label>
+            <input type="number" name="Tenure" id="Tenure" placeholder="Enter tenure in months">
+            <label for="PhoneService">Phone Service</label>
+            <select name="PhoneService" id="PhoneService">
+                <option value="">Select</option>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
             </select>
-
-            <label for="multiplelines">Multiple Lines</label>
-            <select name="multiplelines" id="multiplelines">
-                <option value="No">No</option>
+            <label for="MultipleLines">Multiple Lines</label>
+            <select name="MultipleLines" id="MultipleLines">
+                <option value="">Select</option>
                 <option value="Yes">Yes</option>
-                <option value="No phone service">No phone service</option>
+                <option value="No">No</option>
             </select>
-
-            <label for="contract">Contract</label>
-            <select name="contract" id="contract">
-                <option value="Month-to-Month">Month-to-month</option>
+            <label for="Contract">Contract</label>
+            <select name="Contract" id="Contract">
+                <option value="">Select Contract Type</option>
+                <option value="Month-to-month">Month-to-month</option>
                 <option value="One year">One year</option>
                 <option value="Two year">Two year</option>
             </select>
-
             <input type="submit" value="Predict">
         </form>
-
-        {% if tips_data %}
+        {% if result %}
+        <div class="result">{{ result }}</div>
         <div class="tips">
-            <h2>{{ tips_data.keys()|join('') }}</h2>
+            <h2>{{ tips_df }}</h2>
             <ul>
-                {% for tip in tips_data.values()|first %}
+                {% for tip in tips_data %}
                 <li>{{ tip }}</li>
                 {% endfor %}
             </ul>
         </div>
-        {% endif %}
-
-        {% if result %}
-        <div class="result">{{ result }}</div>
         {% endif %}
     </div>
 </body>
